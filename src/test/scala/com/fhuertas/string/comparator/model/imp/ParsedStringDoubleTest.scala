@@ -1,6 +1,7 @@
 package com.fhuertas.string.comparator.model.imp
 
 import com.fhuertas.string.comparator.model.Character
+import com.fhuertas.string.comparator.model.Character._
 import com.fhuertas.string.comparator.utils.Generators
 import org.scalatest.{Matchers, WordSpec}
 
@@ -12,7 +13,7 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
       val result = ParsedStringDouble(string).characters.toSet
 
       result.size shouldBe 3
-      result shouldBe Set(Character('a', 3), Character('b', 2), Character('c', 2))
+      result shouldBe Set[(Character,String)](Character('a', 3), Character('b', 2), Character('c', 2))
     }
     "not contain characters that is not a-z" in {
       val string = "AA CC $5 SDKLJFJ3 432134 "
@@ -26,60 +27,57 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
 
       val result = ParsedStringDouble(string).characters
 
-      result shouldBe Seq(Character('d', 4), Character('c', 3), Character('z', 3), Character('b', 2))
-    }
-
-    "standard creation of parsed string should set all characters at the string" in {
-      val generatedString = genStringWithCharacters(
-        Map('a' -> 2, 'b' -> 1, 'c' -> 15)).sample.get
-
-      ParsedStringDouble(generatedString).mapChar shouldBe Map(
-        'a' -> (Character('a', 2), "1"),
-        'c' -> (Character('c', 15), "1"))
+      result shouldBe Seq[(Character,String)](Character('d', 4), Character('c', 3), Character('z', 3), Character('b', 2))
     }
 
     "mix correctly a character in a parsed string when the character is mayor" in {
-      val string = genParsedString(Map('b' -> 3, 'a' -> 2, 'd' -> 4)).sample.get
+      val string = genParsedStringDouble(Map('b' -> 3, 'a' -> 2, 'd' -> 4)).sample.get
       val character = Character('a', 3)
       val result = string.joinCharacter(character)
 
-      result.characters shouldBe Seq(Character('d', 4), Character('a', 3), Character('b', 3))
-      result.mapChar.values.toSet shouldBe Set((Character('d', 4), "1"), (Character('a', 3), "2"), (Character('b', 3), "1"))
+      result.characters shouldBe Seq(
+        (Character('d', 4),"1"),
+        (Character('a', 3),"2"),
+        (Character('b', 3),"1"))
     }
 
     "mix correctly a character in a parsed string when the character is equal" in {
-      val string = genParsedString(Map('b' -> 3, 'a' -> 2, 'd' -> 4)).sample.get
+      val string = genParsedStringDouble(Map('b' -> 3, 'a' -> 2, 'd' -> 4)).sample.get
       val character = Character('b', 3)
       val result = string.joinCharacter(character)
 
-      result.characters shouldBe Seq(Character('d', 4), Character('b', 3), Character('a', 2))
-      result.mapChar.values.toSet shouldBe Set((Character('d', 4), "1"), (Character('b', 3), "="), (Character('a', 2), "1"))
+      result.characters shouldBe Seq(
+        (Character('d', 4),"1"),
+        (Character('b', 3),"="),
+        (Character('a', 2),"1"))
     }
 
     "mix correctly a character in a parsed string when the character is not" in {
-      val string = genParsedString(Map('a' -> 2, 'd' -> 4)).sample.get
+      val string = genParsedStringDouble(Map('a' -> 2, 'd' -> 4)).sample.get
       val character = Character('b', 3)
       val result = string.joinCharacter(character)
 
-      result.characters shouldBe Seq(Character('d', 4), Character('b', 3), Character('a', 2))
-      result.mapChar.values.toSet shouldBe Set((Character('d', 4), "1"), (Character('b', 3), "2"), (Character('a', 2), "1"))
+      result.characters shouldBe Seq(
+        (Character('d', 4),"1"),
+        (Character('b', 3),"2"),
+        (Character('a', 2),"1"))
     }
 
     "mix correctly a character in a parsed string when the character is not but occurrences is 1" in {
-      val string = genParsedString(Map('a' -> 2, 'd' -> 4)).sample.get
+      val string = genParsedStringDouble(Map('a' -> 2, 'd' -> 4)).sample.get
       val character = Character('b', 1)
       val result = string.joinCharacter(character)
 
-      result.characters shouldBe Seq(Character('d', 4), Character('a', 2))
+      result.characters shouldBe Seq[(Character,String)](Character('d', 4), Character('a', 2))
     }
 
     "mix correctly when the character should net be included" in {
 
-      val string = genParsedString(Map('g' -> 5)).sample.get
+      val string = genParsedStringDouble(Map('g' -> 5)).sample.get
       val character = Character('g', 4)
       val result = string.joinCharacter(character)
 
-      result.characters shouldBe Seq(Character('g', 5))
+      result.characters shouldBe Seq[(Character,String)](Character('g', 5))
     }
 
     "mix correctly two parsed string" in {
@@ -109,20 +107,58 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
         'k' -> 20, //mayor
         'l' -> 1 //not in A
       )
-      val stringA = genParsedString(charactersA).sample.get
-      val stringB = genParsedString(charactersB).sample.get
+      val stringA = genParsedStringDouble(charactersA).sample.get
+      val stringB = genParsedStringDouble(charactersB).sample.get
       val result = stringA.mix(stringB)
 
       result.characters shouldBe Seq(
-        Character('k', 20),
-        Character('g', 5),
-        Character('i', 5),
-        Character('c', 4),
-        Character('d', 4),
-        Character('j', 4),
-        Character('f', 3),
-        Character('h', 3),
-        Character('a', 2))
+        (Character('k', 20),"2"),
+        (Character('g', 5),"1"),
+        (Character('i', 5),"="),
+        (Character('c', 4),"2"),
+        (Character('d', 4),"1"),
+        (Character('j', 4),"2"),
+        (Character('f', 3),"2"),
+        (Character('h', 3),"1"),
+        (Character('a', 2),"1"))
+    }
+
+    "mix with a empty result a the same mixed string" in {
+      val charactersA = Map(
+        'a' -> 2,
+        'b' -> 1,
+        'c' -> 3,
+        'd' -> 4,
+        'e' -> 1,
+        'g' -> 5,
+        'h' -> 3,
+        'i' -> 5,
+        'j' -> 3,
+        'k' -> 1
+      )
+      val stringA = genParsedStringDouble(charactersA).sample.get
+      val stringB = genParsedStringDouble(Map.empty).sample.get
+
+      val result = stringA.mix(stringB)
+
+      result shouldBe stringA
+    }
+
+    "resolve the examples" in {
+      val s1 = ParsedStringDouble("my&friend&Paul has heavy hats! &")
+      val s2 = ParsedStringDouble("my friend John has many many friends &")
+      val result = s1.mix(s2)
+
+      result.toString shouldBe "2:nnnnn/1:aaaa/1:hhh/2:mmm/2:yyy/2:dd/=:ee/2:ff/2:ii/2:rr/=:ss"
+
+      val s3 = ParsedStringDouble("mmmmm m nnnnn y&friend&Paul has heavy hats! &")
+      val s4 = ParsedStringDouble("my frie n d Joh n has ma n y ma n y frie n ds n&")
+      s3.mix(s4).toString shouldBe "1:mmmmmm/=:nnnnnn/1:aaaa/1:hhh/2:yyy/2:dd/=:ee/2:ff/2:ii/2:rr/=:ss"
+
+      val s5=ParsedStringDouble("Are the kids at home? aaaaa fffff")
+      val s6=ParsedStringDouble("Yes they are here! aaaaa fffff")
+      s5.mix(s6).toString shouldBe "=:aaaaaa/2:eeeee/=:fffff/=:hh/2:rr/1:tt"
+
     }
   }
 

@@ -1,6 +1,6 @@
 package com.fhuertas.string.comparator.utils
 
-import com.fhuertas.string.comparator.model.imp.ParsedStringDouble
+import com.fhuertas.string.comparator.model.imp.{ParsedStringDouble, ParsedStringMultiple}
 import org.scalacheck.Gen
 
 trait Generators {
@@ -25,7 +25,11 @@ trait Generators {
     Gen.sequence(flatChars.map(genStringWithCharacterWithFilter)).map(e => e.toArray.mkString)
   }
 
-  def genParsedString(chars: Map[Char, Int]): Gen[ParsedStringDouble] = for {
+  def genParsedStringDouble(chars: Map[Char, Int]): Gen[ParsedStringDouble] = for {
     string <- genStringWithCharacters(chars)
   } yield ParsedStringDouble(string)
+
+  def genParsedStringMultiple(chars: Map[Char, Int]): Gen[ParsedStringMultiple] = for {
+    string <- genStringWithCharacters(chars)
+  } yield ParsedStringMultiple(string)
 }

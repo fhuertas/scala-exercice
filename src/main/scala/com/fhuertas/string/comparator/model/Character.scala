@@ -10,4 +10,7 @@ case class Character(char: Char, occurrence: Int) extends Ordered[Character] {
 object Character {
   def apply(letter: Char, string: String): Character =
     Character(letter,string.count(_ == letter))
+
+  implicit def toTupleCharacter(character: Character): (Character,String) = (character,"1")
 }
+
