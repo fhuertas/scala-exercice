@@ -14,7 +14,7 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
       val result = ParsedStringDouble(string).characters.toSet
 
       result.size shouldBe 3
-      result shouldBe Set[(Character,String)](Character('a', 3), Character('b', 2), Character('c', 2))
+      result shouldBe Set[(Character, String)](Character('a', 3), Character('b', 2), Character('c', 2))
     }
     "not contain characters that is not a-z" in {
       val string = "AA CC $5 SDKLJFJ3 432134 "
@@ -28,7 +28,7 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
 
       val result = ParsedStringDouble(string).characters
 
-      result shouldBe Seq[(Character,String)](Character('d', 4), Character('c', 3), Character('z', 3), Character('b', 2))
+      result shouldBe Seq[(Character, String)](Character('d', 4), Character('c', 3), Character('z', 3), Character('b', 2))
     }
 
     "mix correctly a character in a parsed string when the character is mayor" in {
@@ -37,9 +37,9 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
       val result = string.joinCharacter(character)
 
       result.characters shouldBe Seq(
-        (Character('d', 4),"1"),
-        (Character('a', 3),"2"),
-        (Character('b', 3),"1"))
+        (Character('d', 4), "1"),
+        (Character('a', 3), "2"),
+        (Character('b', 3), "1"))
     }
 
     "mix correctly a character in a parsed string when the character is equal" in {
@@ -48,9 +48,9 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
       val result = string.joinCharacter(character)
 
       result.characters shouldBe Seq(
-        (Character('d', 4),"1"),
-        (Character('b', 3),"="),
-        (Character('a', 2),"1"))
+        (Character('d', 4), "1"),
+        (Character('b', 3), "="),
+        (Character('a', 2), "1"))
     }
 
     "mix correctly a character in a parsed string when the character is not" in {
@@ -59,9 +59,9 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
       val result = string.joinCharacter(character)
 
       result.characters shouldBe Seq(
-        (Character('d', 4),"1"),
-        (Character('b', 3),"2"),
-        (Character('a', 2),"1"))
+        (Character('d', 4), "1"),
+        (Character('b', 3), "2"),
+        (Character('a', 2), "1"))
     }
 
     "mix correctly a character in a parsed string when the character is not but occurrences is 1" in {
@@ -69,7 +69,7 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
       val character = Character('b', 1)
       val result = string.joinCharacter(character)
 
-      result.characters shouldBe Seq[(Character,String)](Character('d', 4), Character('a', 2))
+      result.characters shouldBe Seq[(Character, String)](Character('d', 4), Character('a', 2))
     }
 
     "mix correctly when the character should net be included" in {
@@ -78,7 +78,7 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
       val character = Character('g', 4)
       val result = string.joinCharacter(character)
 
-      result.characters shouldBe Seq[(Character,String)](Character('g', 5))
+      result.characters shouldBe Seq[(Character, String)](Character('g', 5))
     }
 
     "mix correctly two parsed string" in {
@@ -113,15 +113,15 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
       val result = stringA.mix(stringB)
 
       result.characters shouldBe Seq(
-        (Character('k', 20),"2"),
-        (Character('g', 5),"1"),
-        (Character('i', 5),"="),
-        (Character('c', 4),"2"),
-        (Character('d', 4),"1"),
-        (Character('j', 4),"2"),
-        (Character('f', 3),"2"),
-        (Character('h', 3),"1"),
-        (Character('a', 2),"1"))
+        (Character('k', 20), "2"),
+        (Character('g', 5), "1"),
+        (Character('i', 5), "="),
+        (Character('c', 4), "2"),
+        (Character('d', 4), "1"),
+        (Character('j', 4), "2"),
+        (Character('f', 3), "2"),
+        (Character('h', 3), "1"),
+        (Character('a', 2), "1"))
     }
 
     "mix with a empty result a the same mixed string" in {
@@ -156,8 +156,8 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
       val s4 = ParsedStringDouble("my frie n d Joh n has ma n y ma n y frie n ds n&")
       s3.mix(s4).toString shouldBe "1:mmmmmm/=:nnnnnn/1:aaaa/1:hhh/2:yyy/2:dd/=:ee/2:ff/2:ii/2:rr/=:ss"
 
-      val s5=ParsedStringDouble("Are the kids at home? aaaaa fffff")
-      val s6=ParsedStringDouble("Yes they are here! aaaaa fffff")
+      val s5 = ParsedStringDouble("Are the kids at home? aaaaa fffff")
+      val s6 = ParsedStringDouble("Yes they are here! aaaaa fffff")
       s5.mix(s6).toString shouldBe "=:aaaaaa/2:eeeee/=:fffff/=:hh/2:rr/1:tt"
 
     }

@@ -1,7 +1,6 @@
 package com.fhuertas.string.comparator.model
 
 import play.api.libs.json._
-import play.api.libs.functional.syntax._
 
 case class Character(char: Char, occurrence: Int) extends Ordered[Character] {
   override def compare(that: Character): Int = {
@@ -19,9 +18,7 @@ object Character {
   implicit val writer: Writes[Character] = (o: Character) => {
     Json.obj(
       "character" -> o.char.toString,
-      "ocurrences" -> o.occurrence
+      "occurrences" -> o.occurrence
     )
   }
-
 }
-

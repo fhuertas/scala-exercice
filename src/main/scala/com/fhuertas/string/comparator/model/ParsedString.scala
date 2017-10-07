@@ -11,7 +11,7 @@ trait ParsedString {
 
   def mixRec(character: Option[(Character, String)],
              tail: Seq[(Character, String)],
-             acc: ParsedString = empty): ParsedString = {
+             acc: ParsedString): ParsedString = {
     character match {
       case None => acc
       case Some(char) =>
@@ -24,15 +24,15 @@ trait ParsedString {
     characters.find(c => c._1.char.equals(character._1.char)) match {
       // Same char and occurrences
       case Some((`character`, oldString)) =>
-        val newCharacters = characters.filterNot(_._1 == character) :+ (character,stringForEqual(oldString))
+        val newCharacters = characters.filterNot(_._1 == character) :+ (character, stringForEqual(oldString))
         clone(characters = newCharacters.sortBy(_._1))
       // More occurrences
       case Some((notEqualCharacter, _)) if notEqualCharacter.occurrence < character._1.occurrence =>
-        val newCharacters = characters.filterNot(_._1.char == notEqualCharacter.char) :+ (character,stringForNewGreat)
+        val newCharacters = characters.filterNot(_._1.char == notEqualCharacter.char) :+ (character, stringForNewGreat)
         clone(newCharacters.sortBy(_._1))
       // New char
       case None if character._1.occurrence > 1 =>
-        val newCharacters = characters :+ (character,stringForNewGreat)
+        val newCharacters = characters :+ (character, stringForNewGreat)
         clone(newCharacters.sortBy(_._1))
       // Others
       case _ => clone()
@@ -45,22 +45,20 @@ trait ParsedString {
 
   def clone(characters: Seq[(Character, String)] = characters): ParsedString
 
-  def empty: ParsedString
-
   def stringForNewGreat: String
 
   def stringForEqual(old: String): String
 }
 
 object ParsedString {
-  def getCharacters(string: String): Seq[(Character,String)] = {
+  def getCharacters(string: String): Seq[(Character, String)] = {
     val chars = string.replaceAll("[^a-z]", "").toList.foldLeft(Map.empty[Char, Int]) {
       (map, char) => map + (char -> (map.getOrElse(char, 0) + 1))
     }
-    chars.map(char => Character(char._1, char._2)).filter(_.occurrence > 1).toSeq.sorted.map((_,"1"))
+    chars.map(char => Character(char._1, char._2)).filter(_.occurrence > 1).toSeq.sorted.map((_, "1"))
   }
 
-  implicit val writerTuple: Writes[(Character,String)] = (out: (Character,String)) => {
+  implicit val writerTuple: Writes[(Character, String)] = (out: (Character, String)) => {
     Json.obj(
       "character" -> out._1.char.toString,
       "ocurrences" -> out._1.occurrence,

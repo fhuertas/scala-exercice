@@ -10,17 +10,17 @@ case class ParsedStringMultiple(characters: Seq[(Character, String)], mixedStrin
     super.mix(other).asInstanceOf[ParsedStringMultiple].copy(mixedStrings = mixedStrings + 1)
   }
 
-  override def clone(characters: Seq[(Character, String)]) = copy(characters)
+  override def clone(characters: Seq[(Character, String)]): ParsedStringMultiple = copy(characters)
 
-  override def empty = ParsedStringMultiple(Seq.empty[(Character, String)])
-
-  override def stringForNewGreat = s"${mixedStrings+1}"
+  override def stringForNewGreat = s"${mixedStrings + 1}"
 
   override def stringForEqual(old: String) = s"$old,$stringForNewGreat"
 }
 
 object ParsedStringMultiple {
+
   import ParsedString._
+
   def apply(string: String): ParsedStringMultiple = {
     val characters = getCharacters(string)
     ParsedStringMultiple(characters)
