@@ -1,6 +1,7 @@
 package com.fhuertas.string.comparator.model.imp
 
 import com.fhuertas.string.comparator.model.{Character, ParsedString}
+import play.api.libs.json.{Json, Writes}
 
 case class ParsedStringMultiple(characters: Seq[(Character, String)], mixedStrings: Int = 1)
   extends ParsedString {
@@ -24,4 +25,7 @@ object ParsedStringMultiple {
     val characters = getCharacters(string)
     ParsedStringMultiple(characters)
   }
+
+  implicit val writer: Writes[ParsedStringMultiple] = Json.writes[ParsedStringMultiple]
+
 }

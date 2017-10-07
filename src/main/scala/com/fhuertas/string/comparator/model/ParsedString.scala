@@ -1,5 +1,7 @@
 package com.fhuertas.string.comparator.model
 
+import play.api.libs.json.{Json, Writes}
+
 trait ParsedString {
   val characters: Seq[(Character, String)]
 
@@ -56,5 +58,13 @@ object ParsedString {
       (map, char) => map + (char -> (map.getOrElse(char, 0) + 1))
     }
     chars.map(char => Character(char._1, char._2)).filter(_.occurrence > 1).toSeq.sorted.map((_,"1"))
+  }
+
+  implicit val writerTuple: Writes[(Character,String)] = (out: (Character,String)) => {
+    Json.obj(
+      "character" -> out._1.char.toString,
+      "ocurrences" -> out._1.occurrence,
+      "list" -> out._2
+    )
   }
 }

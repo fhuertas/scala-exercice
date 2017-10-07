@@ -3,6 +3,7 @@ package com.fhuertas.string.comparator.model
 import com.fhuertas.string.comparator.utils.Generators
 import org.scalatest.{Matchers, WordSpec}
 import org.scalacheck.Gen
+import play.api.libs.json.Json
 
 class CharacterTest extends WordSpec with Matchers with Generators{
   "A letter" should {
@@ -31,6 +32,10 @@ class CharacterTest extends WordSpec with Matchers with Generators{
       Character('z',2) shouldNot be < Character('a',2)
       Character('h',3) shouldNot be > Character('h',3)
       Character('h',3) shouldNot be < Character('h',3)
+    }
+
+    "Parse to json correctly" in {
+      Json.toJson(Character('z',2)).toString shouldBe "{\"character\":\"z\",\"ocurrences\":2}"
     }
   }
 }

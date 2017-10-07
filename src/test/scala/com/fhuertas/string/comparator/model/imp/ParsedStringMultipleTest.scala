@@ -3,6 +3,7 @@ package com.fhuertas.string.comparator.model.imp
 import com.fhuertas.string.comparator.model.Character
 import com.fhuertas.string.comparator.utils.Generators
 import org.scalatest.{Matchers, WordSpec}
+import play.api.libs.json.Json
 
 class ParsedStringMultipleTest extends WordSpec with Matchers with Generators {
   "Multiple parsed string" should {
@@ -43,6 +44,74 @@ class ParsedStringMultipleTest extends WordSpec with Matchers with Generators {
       s1.mix(s2).mix(s3).mix(s4).mix(s5).mix(s6).toString shouldBe
         "5,6:aaaaaa/3:mmmmmm/3,4:nnnnnn/6:eeeee/5,6:fffff/1,3:hhh/2,4:yyy/2,4:dd/2,4:ii/2,4,6:rr/1,2,3,4:ss/5:tt"
     }
+    "" in {
+      val s1 = ParsedStringMultiple("my&friend&Paul has heavy hats! &")
+      val s2 = ParsedStringMultiple("my friend John has many many friends &")
+      val s3 = ParsedStringMultiple("mmmmm m nnnnn y&friend&Paul has heavy hats! &")
+      val s4 = ParsedStringMultiple("my frie n d Joh n has ma n y ma n y frie n ds n&")
+      val s5=ParsedStringMultiple("Are the kids at home? aaaaa fffff")
+      val s6=ParsedStringMultiple("Yes they are here! aaaaa fffff")
 
+      val expected = Json.parse(
+        s"""
+           |{
+           |	"characters": [{
+           |		"character": "a",
+           |		"ocurrences": 6,
+           |		"list": "5,6"
+           |	}, {
+           |		"character": "m",
+           |		"ocurrences": 6,
+           |		"list": "3"
+           |	}, {
+           |		"character": "n",
+           |		"ocurrences": 6,
+           |		"list": "3,4"
+           |	}, {
+           |		"character": "e",
+           |		"ocurrences": 5,
+           |		"list": "6"
+           |	}, {
+           |		"character": "f",
+           |		"ocurrences": 5,
+           |		"list": "5,6"
+           |	}, {
+           |		"character": "h",
+           |		"ocurrences": 3,
+           |		"list": "1,3"
+           |	}, {
+           |		"character": "y",
+           |		"ocurrences": 3,
+           |		"list": "2,4"
+           |	}, {
+           |		"character": "d",
+           |		"ocurrences": 2,
+           |		"list": "2,4"
+           |	}, {
+           |		"character": "i",
+           |		"ocurrences": 2,
+           |		"list": "2,4"
+           |	}, {
+           |		"character": "r",
+           |		"ocurrences": 2,
+           |		"list": "2,4,6"
+           |	}, {
+           |		"character": "s",
+           |		"ocurrences": 2,
+           |		"list": "1,2,3,4"
+           |	}, {
+           |		"character": "t",
+           |		"ocurrences": 2,
+           |		"list": "5"
+           |	}],
+           |	"mixedStrings": 6
+           |}
+         """.stripMargin)
+
+      val result = Json.toJson(s1.mix(s2).mix(s3).mix(s4).mix(s5).mix(s6).asInstanceOf[ParsedStringMultiple])
+
+      result shouldBe expected
+
+    }
   }
 }

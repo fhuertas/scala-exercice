@@ -4,6 +4,7 @@ import com.fhuertas.string.comparator.model.Character
 import com.fhuertas.string.comparator.model.Character._
 import com.fhuertas.string.comparator.utils.Generators
 import org.scalatest.{Matchers, WordSpec}
+import play.api.libs.json.Json
 
 class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
   "ParsedString" should {
@@ -159,6 +160,66 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
       val s6=ParsedStringDouble("Yes they are here! aaaaa fffff")
       s5.mix(s6).toString shouldBe "=:aaaaaa/2:eeeee/=:fffff/=:hh/2:rr/1:tt"
 
+    }
+
+    "parse metadata correctly" in {
+      import ParsedStringDouble._
+      val s1 = ParsedStringDouble("my&friend&Paul has heavy hats! &")
+      val s2 = ParsedStringDouble("my friend John has many many friends &")
+      val result = s1.mix(s2).asInstanceOf[ParsedStringDouble]
+
+      val expected = Json.parse(
+        s"""
+           |{
+           |	"characters": [{
+           |		"character": "n",
+           |		"ocurrences": 5,
+           |		"list": "2"
+           |	}, {
+           |		"character": "a",
+           |		"ocurrences": 4,
+           |		"list": "1"
+           |	}, {
+           |		"character": "h",
+           |		"ocurrences": 3,
+           |		"list": "1"
+           |	}, {
+           |		"character": "m",
+           |		"ocurrences": 3,
+           |		"list": "2"
+           |	}, {
+           |		"character": "y",
+           |		"ocurrences": 3,
+           |		"list": "2"
+           |	}, {
+           |		"character": "d",
+           |		"ocurrences": 2,
+           |		"list": "2"
+           |	}, {
+           |		"character": "e",
+           |		"ocurrences": 2,
+           |		"list": "="
+           |	}, {
+           |		"character": "f",
+           |		"ocurrences": 2,
+           |		"list": "2"
+           |	}, {
+           |		"character": "i",
+           |		"ocurrences": 2,
+           |		"list": "2"
+           |	}, {
+           |		"character": "r",
+           |		"ocurrences": 2,
+           |		"list": "2"
+           |	}, {
+           |		"character": "s",
+           |		"ocurrences": 2,
+           |		"list": "="
+           |	}]
+           |}
+         """.stripMargin)
+
+      Json.toJson(result) shouldBe expected
     }
   }
 
