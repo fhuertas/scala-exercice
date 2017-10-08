@@ -39,7 +39,11 @@ You must have installed Scala and sbt
 ## Run command
 
 These are the commands to run the project:
-
+* `sbt run`: To start the web service. 
 * `sbt compile`: Compile the project
 * `sbt test`: Run the tests
 * `sbt clean coverage test && sbt coverageReport`: To test the application and show the coverage
+
+NOTE: For run command. Endpoints are served in double-parser and multiple-parser paths, examples: 
+* `curl -XPOST -d '["aaa","bbab caca"]' localhost:8080/api/double-parser`
+* `curl -XPOST -d '["aaa","bbab caca"]' localhost:8080/api/multiple-parser`

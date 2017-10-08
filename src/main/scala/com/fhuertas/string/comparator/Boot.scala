@@ -23,7 +23,7 @@ object Boot extends App with Configuration {
     .mapTo[Http.Event]
     .map {
       case Http.Bound(address) =>
-        println(s"REST interface bound to $address")
+        println(s"REST interface bound to $address/$Path")
       case Http.CommandFailed(cmd) =>
         println("REST interface could not bind to " +
           s"$Host:$Port, ${cmd.failureMessage}")
