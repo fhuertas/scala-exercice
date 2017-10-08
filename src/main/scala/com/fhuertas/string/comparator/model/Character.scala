@@ -15,10 +15,12 @@ object Character {
 
   implicit def toTupleCharacter(character: Character): (Character, String) = (character, "1")
 
-  implicit val writer: Writes[Character] = (o: Character) => {
-    Json.obj(
-      "character" -> o.char.toString,
-      "occurrences" -> o.occurrence
-    )
+  implicit val writer: Writes[Character] = new Writes[Character] {
+    override def writes(o: Character): JsValue = {
+      Json.obj(
+        "character" -> o.char.toString,
+        "occurrences" -> o.occurrence
+      )
+    }
   }
 }

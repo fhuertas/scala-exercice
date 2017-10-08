@@ -10,3 +10,5 @@ lazy val root = (project in file(".")).
     name := "string.copmarator",
     libraryDependencies ++= dependencies ++ testDependencies
   )
+
+net.virtualvoid.sbt.graph.DependencyGraphSettings.graphSettings

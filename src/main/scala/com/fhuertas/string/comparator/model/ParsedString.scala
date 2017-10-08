@@ -1,6 +1,6 @@
 package com.fhuertas.string.comparator.model
 
-import play.api.libs.json.{Json, Writes}
+import play.api.libs.json.{JsValue, Json, Writes}
 
 trait ParsedString {
   val characters: Seq[(Character, String)]
@@ -58,11 +58,13 @@ object ParsedString {
     chars.map(char => Character(char._1, char._2)).filter(_.occurrence > 1).toSeq.sorted.map((_, "1"))
   }
 
-  implicit val writerTuple: Writes[(Character, String)] = (out: (Character, String)) => {
-    Json.obj(
-      "character" -> out._1.char.toString,
-      "ocurrences" -> out._1.occurrence,
-      "list" -> out._2
-    )
+  implicit val writerTuple: Writes[(Character, String)] = new Writes[(Character, String)] {
+    override def writes(out: (Character, String)): JsValue = {
+      Json.obj(
+        "character" -> out._1.char.toString,
+        "occurrences" -> out._1.occurrence,
+        "list" -> out._2
+      )
+    }
   }
 }

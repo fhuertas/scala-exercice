@@ -35,7 +35,7 @@ class CharacterTest extends WordSpec with Matchers with Generators {
     }
 
     "Parse to json correctly" in {
-      Json.toJson(Character('z', 2)).toString shouldBe "{\"character\":\"z\",\"occurrences\":2}"
+      Json.toJson(Character('z', 2)) shouldBe Json.parse(s"""{"character":"z","occurrences":2}"""")
     }
   }
 }

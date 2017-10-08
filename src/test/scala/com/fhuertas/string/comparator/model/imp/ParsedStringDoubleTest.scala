@@ -173,47 +173,47 @@ class ParsedStringDoubleTest extends WordSpec with Matchers with Generators {
            |{
            |	"characters": [{
            |		"character": "n",
-           |		"ocurrences": 5,
+           |		"occurrences": 5,
            |		"list": "2"
            |	}, {
            |		"character": "a",
-           |		"ocurrences": 4,
+           |		"occurrences": 4,
            |		"list": "1"
            |	}, {
            |		"character": "h",
-           |		"ocurrences": 3,
+           |		"occurrences": 3,
            |		"list": "1"
            |	}, {
            |		"character": "m",
-           |		"ocurrences": 3,
+           |		"occurrences": 3,
            |		"list": "2"
            |	}, {
            |		"character": "y",
-           |		"ocurrences": 3,
+           |		"occurrences": 3,
            |		"list": "2"
            |	}, {
            |		"character": "d",
-           |		"ocurrences": 2,
+           |		"occurrences": 2,
            |		"list": "2"
            |	}, {
            |		"character": "e",
-           |		"ocurrences": 2,
+           |		"occurrences": 2,
            |		"list": "="
            |	}, {
            |		"character": "f",
-           |		"ocurrences": 2,
+           |		"occurrences": 2,
            |		"list": "2"
            |	}, {
            |		"character": "i",
-           |		"ocurrences": 2,
+           |		"occurrences": 2,
            |		"list": "2"
            |	}, {
            |		"character": "r",
-           |		"ocurrences": 2,
+           |		"occurrences": 2,
            |		"list": "2"
            |	}, {
            |		"character": "s",
-           |		"ocurrences": 2,
+           |		"occurrences": 2,
            |		"list": "="
            |	}]
            |}

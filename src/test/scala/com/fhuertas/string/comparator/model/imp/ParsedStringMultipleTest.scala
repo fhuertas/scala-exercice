@@ -57,51 +57,51 @@ class ParsedStringMultipleTest extends WordSpec with Matchers with Generators {
            |{
            |	"characters": [{
            |		"character": "a",
-           |		"ocurrences": 6,
+           |		"occurrences": 6,
            |		"list": "5,6"
            |	}, {
            |		"character": "m",
-           |		"ocurrences": 6,
+           |		"occurrences": 6,
            |		"list": "3"
            |	}, {
            |		"character": "n",
-           |		"ocurrences": 6,
+           |		"occurrences": 6,
            |		"list": "3,4"
            |	}, {
            |		"character": "e",
-           |		"ocurrences": 5,
+           |		"occurrences": 5,
            |		"list": "6"
            |	}, {
            |		"character": "f",
-           |		"ocurrences": 5,
+           |		"occurrences": 5,
            |		"list": "5,6"
            |	}, {
            |		"character": "h",
-           |		"ocurrences": 3,
+           |		"occurrences": 3,
            |		"list": "1,3"
            |	}, {
            |		"character": "y",
-           |		"ocurrences": 3,
+           |		"occurrences": 3,
            |		"list": "2,4"
            |	}, {
            |		"character": "d",
-           |		"ocurrences": 2,
+           |		"occurrences": 2,
            |		"list": "2,4"
            |	}, {
            |		"character": "i",
-           |		"ocurrences": 2,
+           |		"occurrences": 2,
            |		"list": "2,4"
            |	}, {
            |		"character": "r",
-           |		"ocurrences": 2,
+           |		"occurrences": 2,
            |		"list": "2,4,6"
            |	}, {
            |		"character": "s",
-           |		"ocurrences": 2,
+           |		"occurrences": 2,
            |		"list": "1,2,3,4"
            |	}, {
            |		"character": "t",
-           |		"ocurrences": 2,
+           |		"occurrences": 2,
            |		"list": "5"
            |	}],
            |	"mixedStrings": 6
